@@ -1,8 +1,11 @@
+<img src="./images/icon.png" align="right" width="75" height="75">
+
 # open-in-overleaf
 
-Access the LaTeX source code of arXiv papers on Overleaf.
+Open and edit arxiv.org papers directly on Overleaf.
 
 ![](./images/screenshot.png)
+
 
 ## Install
 - [Chrome Web Store](#)
