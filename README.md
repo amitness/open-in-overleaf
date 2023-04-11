@@ -2,6 +2,8 @@
 
 Access the LaTeX source code of arXiv papers on Overleaf.
 
+![](./images/screenshot.png)
+
 ## Install
 - [Chrome Web Store](#)
 
