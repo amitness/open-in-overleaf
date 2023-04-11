@@ -2,7 +2,7 @@
 
 # open-in-overleaf
 
-Open and edit arxiv.org papers directly on Overleaf.
+Open and edit any arxiv.org paper directly on Overleaf.
 
 https://user-images.githubusercontent.com/8587189/231282700-3d66594a-539d-452a-896e-951eda69c3f7.mp4
 
