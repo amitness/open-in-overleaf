@@ -8,7 +8,7 @@ https://user-images.githubusercontent.com/8587189/231282700-3d66594a-539d-452a-8
 
 
 ## Install
-- [Chrome Web Store](#)
+- [Chrome Web Store](https://chrome.google.com/webstore/detail/open-in-overleaf/oikhlgfcmfbbdjbeeaplalpfdgijbdji)
 
 ## Manual Installation from GitHub
 To install the extension, please follow the steps given below.
