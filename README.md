@@ -1,6 +1,6 @@
 <img src="./images/icon.png" align="right" width="75" height="75">
 
-# open-in-overleaf
+# open-in-overleaf ![Chrome Web Store](https://img.shields.io/chrome-web-store/users/oikhlgfcmfbbdjbeeaplalpfdgijbdji?label=users)
 
 Open and edit any arxiv.org paper directly on Overleaf.
 
