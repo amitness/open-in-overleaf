@@ -15,14 +15,14 @@ def convert_tar_to_zip(arxiv_url):
     # Fetch the latex source as .tar.gz file
     tar_file = requests.get(latex_source_url).content
     with tarfile.open(fileobj=io.BytesIO(tar_file)) as tar:
-        with tempfile.TemporaryDirectory() as dir:
+        with tempfile.TemporaryDirectory() as temp_dir:
             # Extract the tar file to a temporary directory
-            tar.extractall(dir)
+            tar.extractall(temp_dir)
 
             # Create a zip file from the extracted tar file
             filename = str(uuid.uuid4())
             zip_name = f'{filename}'
-            shutil.make_archive(filename, 'zip', dir)
+            shutil.make_archive(filename, 'zip', temp_dir)
     
     return {'zip_url': f'{zip_name}.zip'}
 
