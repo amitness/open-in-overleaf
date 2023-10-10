@@ -4,7 +4,9 @@
 
 A browser extension to open and edit any arxiv.org paper directly on overleaf.
 
-https://user-images.githubusercontent.com/8587189/231282700-3d66594a-539d-452a-896e-951eda69c3f7.mp4
+https://github.com/amitness/open-in-overleaf/assets/8587189/faaf9ce9-3ab1-410b-af26-dd17afc32211
+
+
 
 This is useful to examine how some feature or typesetting effect in a paper was implemented in LaTex. It's also useful to copy equations, citations and tables from the paper for derivative work or presentations.
 
