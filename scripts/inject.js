@@ -32,8 +32,8 @@ function convertToZip() {
 
 
 function addOverleafButton() {
-    var otherFormats = document.getElementsByClassName("abs-button download-format")[0];
-    var ul = otherFormats.parentElement.parentElement
+    var otherFormats = document.getElementsByClassName("abs-button download-pdf")[0];
+    var ul = otherFormats.parentElement.parentElement;
     
     // Create a clickable link
     var li = document.createElement("li");
