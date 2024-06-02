@@ -4,9 +4,11 @@ var BACKEND_URL = 'https://amitness-open-in-overleaf.hf.space'
 
 function convertToZip() {
     // Blur the page to show that conversion is in progress
-    document.getElementById("overleaf-text").textContent = "Converting...";
+    var overleafTextElement = document.getElementById("overleaf-text");
+    var arxivHeader = document.getElementById("header");
+    overleafTextElement.textContent = "Converting...";
     document.body.style.filter = 'blur(2px)';
-    document.getElementById("header").style.background="#4f9c45";
+    arxivHeader.style.background = "#4f9c45";
 
     // Perform an API call to convert the .tar.gz file to a zip file
     fetch(BACKEND_URL + "/run/predict", {
@@ -18,7 +20,12 @@ function convertToZip() {
             ]
         })
     })
-        .then(r => r.json())
+        .then(r => {
+            if (!r.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return r.json();
+        })
         .then(
             r => {
                 var zip_name = r.data[0]['zip_url'];
@@ -27,7 +34,15 @@ function convertToZip() {
                 // Redirect to overleaf pointing to the zip file
                 window.location = "https://www.overleaf.com/docs?snip_uri=" + latex_zip_url;
             }
-        )
+    )
+        .catch(error => {
+            setTimeout(() => {
+                overleafTextElement.textContent = "Open in Overleaf";
+            }, 3000);
+            overleafTextElement.textContent = "Failed. Please try again in few minutes...";
+            document.body.style.filter = 'none';
+            arxivHeader.style.background = "#b31b1b";
+        });
 }
 
 
