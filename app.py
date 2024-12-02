@@ -13,7 +13,9 @@ def convert_tar_to_zip(arxiv_url):
                         .replace('arxiv.org', 'export.arxiv.org'))
     
     # Fetch the latex source as .tar.gz file
-    tar_file = requests.get(latex_source_url).content
+    resp = requests.get(latex_source_url)
+    print(resp.status_code)
+    tar_file = resp.content
     with tarfile.open(fileobj=io.BytesIO(tar_file)) as tar:
         with tempfile.TemporaryDirectory() as temp_dir:
             # Extract the tar file to a temporary directory
