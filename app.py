@@ -1,11 +1,16 @@
 import io
+import json
+import os
 import shutil
 import tarfile
 import tempfile
 import uuid
+from io import BytesIO
 
-import gradio as gr
 import requests
+from fastapi import FastAPI
+from fastapi.responses import FileResponse, StreamingResponse
+from fastapi.staticfiles import StaticFiles
 
 
 def convert_tar_to_zip(arxiv_url):
@@ -25,11 +30,20 @@ def convert_tar_to_zip(arxiv_url):
             zip_name = f'{filename}'
             shutil.make_archive(filename, 'zip', temp_dir)
     
-    return {'zip_url': f'{zip_name}.zip'}
+    return f'{zip_name}.zip'
 
-inputs = gr.Textbox(label="URL")
+app = FastAPI(docs_url=None, redoc_url=None)
 
-title = "Conversion Engine for Arxiv Latex Tar to Zip"
-description = "Enter the URL of the Arxiv paper"
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
-gr.Interface(convert_tar_to_zip, inputs, "json", title=title, description=description).launch(debug=True)
+
+@app.head("/")
+@app.get("/")
+def index() -> FileResponse:
+    return FileResponse(path="static/index.html", media_type="text/html")
+
+
+@app.get("/fetch_tar")
+def t5(arxiv_url: str):
+    zip_path = convert_tar_to_zip(arxiv_url)
+    return FileResponse(path=zip_path, media_type="application/zip", filename=zip_path)
