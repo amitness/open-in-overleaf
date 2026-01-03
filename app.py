@@ -9,7 +9,7 @@ import requests
 
 
 def convert_tar_to_zip(arxiv_url):
-    latex_source_url = (arxiv_url.replace('/abs/', '/e-print/')
+    latex_source_url = (arxiv_url.replace('/abs/', '/src/')
                         .replace('arxiv.org', 'export.arxiv.org'))
     
     # Fetch the latex source as .tar.gz file
