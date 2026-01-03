@@ -32,4 +32,4 @@ inputs = gr.Textbox(label="URL")
 title = "Conversion Engine for Arxiv Latex Tar to Zip"
 description = "Enter the URL of the Arxiv paper"
 
-gr.Interface(convert_tar_to_zip, inputs, "json", title=title, description=description).launch()
+gr.Interface(convert_tar_to_zip, inputs, "json", title=title, description=description).launch(debug=True)
