@@ -1,6 +1,6 @@
 {
   "name": "open-in-overleaf",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Access the LaTeX source code of arXiv papers on Overleaf ",
   "author": "Amit Chaudhary <meamitkc@gmail.com>",
   "homepage_url": "https://github.com/amitness/open-in-overleaf",
