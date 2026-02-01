@@ -19,7 +19,22 @@ On the arxiv page, click `Open in Overleaf` link on the sidebar and the latex so
 <img width="255" alt="image" src="https://user-images.githubusercontent.com/8587189/233186434-8ff96d82-713d-4dc2-8202-c9026c765e71.png">
 
 ## How it works
-1. Arxiv provides a latex source for each paper in a `.tar.gz` format
-2. Overleaf provides an [API endpoint](https://www.overleaf.com/devs) to open a latex project with a direct link to a zip file
-3. Our extension converts the `.tar.gz` file from arxiv to a zip file using a backend service hosted on huggingface spaces [here](https://huggingface.co/spaces/amitness/open-in-overleaf)
-4. We then redirect the user to the overleaf page with that url
+```
+┌──────────────────────┐       ┌──────────────┐  .tar.gz  ┌────────────────────────┐
+│  "Open in Overleaf"  │──────▶│  arxiv.org   │──────────▶│  HuggingFace Spaces    │
+│  button              │       │              │           │  (converter service)   │
+└──────────────────────┘       └──────────────┘           └────────────────────────┘
+                                                                     │
+                                                                     │ .zip
+                                                                     │ file
+                                                                     ▼
+                               ┌──────────────┐           ┌──────────────────────┐
+                               │  Overleaf    │◀──────────│  Redirect to         │
+                               │  editor      │           │  Overleaf API        │
+                               └──────────────┘           └──────────────────────┘
+```
+
+1. On clicking the button, the extension fetches the latex source from arxiv in the `.tar.gz` format 
+2. Our extension converts the `.tar.gz` file from arxiv to a zip file using a backend service hosted on huggingface spaces [here](https://huggingface.co/spaces/amitness/open-in-overleaf)
+3. Overleaf provides an [API endpoint](https://www.overleaf.com/devs) to open a latex project with a direct link to a zip file
+4. We then redirect the user to the overleaf page with that endpoint and the paper opens up in the overleaf editor.
