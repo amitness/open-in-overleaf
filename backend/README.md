@@ -1,13 +1,14 @@
 ---
-title: Open In Overleaf
-emoji: 🐢
-colorFrom: gray
-colorTo: purple
+title: open-in-overleaf
+emoji: ⚡
+colorFrom: green
+colorTo: green
 sdk: gradio
-sdk_version: 3.24.1
-app_file: app.py
-pinned: false
+sdk_version: 4.36.0
+python_version: 3.10.4
+app_file: start.py
 license: mit
+pinned: false
 ---
 
-Check out the configuration reference at https://huggingface.co/docs/hub/spaces-config-reference
+Check out the configuration reference at https://huggingface.co/docs/hub/spaces#reference

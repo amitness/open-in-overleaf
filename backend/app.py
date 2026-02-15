@@ -1,34 +1,41 @@
-import io
-import shutil
+from io import BytesIO
 import tarfile
-import tempfile
-import uuid
+import zipfile
 
-import gradio as gr
 import requests
+from fastapi import FastAPI
+from fastapi.responses import FileResponse, StreamingResponse
+from fastapi.staticfiles import StaticFiles
 
 
-def convert_tar_to_zip(arxiv_url):
-    latex_source_url = (arxiv_url.replace('/abs/', '/e-print/')
-                        .replace('arxiv.org', 'export.arxiv.org'))
-    
-    # Fetch the latex source as .tar.gz file
-    tar_file = requests.get(latex_source_url).content
-    with tarfile.open(fileobj=io.BytesIO(tar_file)) as tar:
-        with tempfile.TemporaryDirectory() as dir:
-            # Extract the tar file to a temporary directory
-            tar.extractall(dir)
+def convert_tar_to_zip(arxiv_url: str) -> BytesIO:
+    latex_source_url = arxiv_url.replace("/abs/", "/src/")
+    resp = requests.get(latex_source_url)
 
-            # Create a zip file from the extracted tar file
-            filename = str(uuid.uuid4())
-            zip_name = f'{filename}'
-            shutil.make_archive(filename, 'zip', dir)
-    
-    return {'zip_url': f'{zip_name}.zip'}
+    zip_buffer = BytesIO()
+    with tarfile.open(fileobj=BytesIO(resp.content), mode="r:gz") as tar:
+        with zipfile.ZipFile(zip_buffer, "w", zipfile.ZIP_DEFLATED) as zf:
+            for member in tar.getmembers():
+                if member.isfile() and (f := tar.extractfile(member)):
+                    zf.writestr(member.name, f.read())
 
-inputs = gr.Textbox(label="URL")
+    zip_buffer.seek(0)
+    return zip_buffer
 
-title = "Conversion Engine for Arxiv Latex Tar to Zip"
-description = "Enter the URL of the Arxiv paper"
 
-gr.Interface(convert_tar_to_zip, inputs, "json", title=title, description=description).launch()
+app = FastAPI(docs_url=None, redoc_url=None)
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
+
+@app.get("/")
+def index():
+    return FileResponse("static/index.html", media_type="text/html")
+
+
+@app.get("/fetch_tar")
+def fetch_arxiv_zip(arxiv_url: str):
+    return StreamingResponse(
+        convert_tar_to_zip(arxiv_url),
+        media_type="application/zip",
+        headers={"Content-Disposition": "attachment; filename=arxiv_source.zip"},
+    )
