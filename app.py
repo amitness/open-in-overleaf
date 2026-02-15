@@ -1,11 +1,6 @@
-import io
-import json
-import os
-import shutil
-import tarfile
-import tempfile
-import uuid
 from io import BytesIO
+import tarfile
+import zipfile
 
 import requests
 from fastapi import FastAPI
@@ -13,38 +8,34 @@ from fastapi.responses import FileResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 
 
-def convert_tar_to_zip(arxiv_url):
+def convert_tar_to_zip(arxiv_url: str) -> BytesIO:
     latex_source_url = arxiv_url.replace("/abs/", "/src/")
-
-    # Fetch the latex source as .tar.gz file
     resp = requests.get(latex_source_url)
-    print(resp.status_code)
-    tar_file = resp.content
-    with tarfile.open(fileobj=io.BytesIO(tar_file), mode="r:gz") as tar:
-        with tempfile.TemporaryDirectory() as temp_dir:
-            # Extract the tar file to a temporary directory
-            tar.extractall(temp_dir)
 
-            # Create a zip file from the extracted tar file
-            filename = str(uuid.uuid4())
-            zip_name = f"{filename}"
-            shutil.make_archive(filename, "zip", temp_dir)
+    zip_buffer = BytesIO()
+    with tarfile.open(fileobj=BytesIO(resp.content), mode="r:gz") as tar:
+        with zipfile.ZipFile(zip_buffer, "w", zipfile.ZIP_DEFLATED) as zf:
+            for member in tar.getmembers():
+                if member.isfile() and (f := tar.extractfile(member)):
+                    zf.writestr(member.name, f.read())
 
-    return f"{zip_name}.zip"
+    zip_buffer.seek(0)
+    return zip_buffer
 
 
 app = FastAPI(docs_url=None, redoc_url=None)
-
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 
-@app.head("/")
 @app.get("/")
-def index() -> FileResponse:
-    return FileResponse(path="static/index.html", media_type="text/html")
+def index():
+    return FileResponse("static/index.html", media_type="text/html")
 
 
 @app.get("/fetch_tar")
-def t5(arxiv_url: str):
-    zip_path = convert_tar_to_zip(arxiv_url)
-    return FileResponse(path=zip_path, media_type="application/zip", filename=zip_path)
+def fetch_arxiv_zip(arxiv_url: str):
+    return StreamingResponse(
+        convert_tar_to_zip(arxiv_url),
+        media_type="application/zip",
+        headers={"Content-Disposition": "attachment; filename=arxiv_source.zip"},
+    )
