@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Open in Overleaf</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #fff;
+    }
+  
+    .container {
+      text-align: center;
+      max-width: 600px;
+    }
+
+    h1 {
+      font-size: 3rem;
+      font-weight: 600;
+      color: #000;
+      margin-bottom: 20px;
+    }
+
+    .github-link {
+      color: #000;
+      text-decoration: none;
+      border-bottom: 1px solid #000;
+    }
+
+    .github-link:hover {
+      border-bottom: 2px solid #000;
+    }
+
+    .badges {
+      margin-top: 20px;
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .badges img {
+      height: 20px;
+    }
+
+    .api-docs {
+      margin-top: 40px;
+      padding: 20px;
+      text-align: left;
+      border-top: 1px solid #e0e0e0;
+    }
+
+    .api-docs h2 {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+    }
+
+    .api-docs p {
+      margin-bottom: 10px;
+      line-height: 1.6;
+    }
+
+    .api-docs code {
+      background: #f5f5f5;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9em;
+    }
+
+    .api-docs pre {
+      background: #f5f5f5;
+      padding: 15px;
+      border-radius: 5px;
+      overflow-x: auto;
+      margin: 15px 0;
+    }
+
+    .api-docs pre code {
+      background: none;
+      padding: 0;
+    }
+  </style>
+</head>
+  
+<body>
+  <div class="container">
+    <h1>Open in Overleaf</h1>
+    <a href="https://github.com/amitness/open-in-overleaf" class="github-link">github.com/amitness/open-in-overleaf</a>
+    <div class="badges">
+      <a href="https://chromewebstore.google.com/detail/open-in-overleaf/oikhlgfcmfbbdjbeeaplalpfdgijbdji?pli=1">
+        <img src="https://img.shields.io/chrome-web-store/users/oikhlgfcmfbbdjbeeaplalpfdgijbdji?label=users"
+          alt="Chrome Web Store Users">
+      </a>
+      <a href="https://chromewebstore.google.com/detail/open-in-overleaf/oikhlgfcmfbbdjbeeaplalpfdgijbdji?pli=1">
+        <img src="https://img.shields.io/chrome-web-store/rating/oikhlgfcmfbbdjbeeaplalpfdgijbdji.svg"
+          alt="Chrome Web Store Rating">
+      </a>
+    </div>
+<div class="api-docs">
+  <h2>API Usage</h2>
+  <p>The browser extension uses this backend API to convert arXiv papers for Overleaf:</p>
+
+  <p><strong>Backend URL:</strong> <code>https://amitness-open-in-overleaf.hf.space</code></p>
+
+  <p><strong>How it works:</strong></p>
+  <pre><code>// 1. Extension detects arXiv page
+// 2. Constructs Overleaf import URL
+var url = "https://www.overleaf.com/docs?snip_uri=" + 
+          BACKEND_URL + "/fetch_tar?arxiv_url=" + 
+          encodeURIComponent(arxivPageURL);
+
+// 3. Adds "Open in Overleaf" button to arXiv page
+// 4. Clicking button redirects to Overleaf with the source</code></pre>
+
+  <p><strong>Endpoint:</strong> <code>GET /fetch_tar?arxiv_url={arxiv_url}</code></p>
+  <p>Returns a tarball of the LaTeX source that Overleaf can import directly.</p>
+  <p><strong>Example:</strong> <a
+      href="https://amitness-open-in-overleaf.hf.space/fetch_tar?arxiv_url=https://arxiv.org/abs/1810.04805"
+      style="color: #0066cc;">Test with BERT paper</a></p>
+</div>
+    </div>
+</body>
+</html>
