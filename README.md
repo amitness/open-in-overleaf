@@ -1,4 +1,4 @@
-<img src="./images/icon.png" align="right" width="75" height="75">
+<img src="./extension/images/icon.png" align="right" width="75" height="75">
 
 # open-in-overleaf [![Chrome Web Store](https://img.shields.io/chrome-web-store/users/oikhlgfcmfbbdjbeeaplalpfdgijbdji?label=users)](https://chromewebstore.google.com/detail/open-in-overleaf/oikhlgfcmfbbdjbeeaplalpfdgijbdji?pli=1) [![](https://img.shields.io/chrome-web-store/rating/oikhlgfcmfbbdjbeeaplalpfdgijbdji.svg)](https://chromewebstore.google.com/detail/open-in-overleaf/oikhlgfcmfbbdjbeeaplalpfdgijbdji?pli=1)
 
