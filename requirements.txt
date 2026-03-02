@@ -1,3 +1,3 @@
-fastapi==0.74.*
-requests==2.31.0
-uvicorn[standard]==0.17.*
+fastapi
+requests
+uvicorn[standard]
